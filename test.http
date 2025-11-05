@@ -1,0 +1,23 @@
+@BASE_URL=http://localhost:3000
+
+GET {{BASE_URL}}/contacts
+User-Agent: rest-client
+Content-Type: application/json
+
+###
+
+POST {{BASE_URL}}/contacts
+User-Agent: rest-client
+Content-Type: application/json
+
+{
+    "firstName": "Dimitri",
+    "lastName": "Carpentier",
+    "title": "Dev Rust"
+}
+
+###
+
+DELETE {{BASE_URL}}/contacts/1
+User-Agent: rest-client
+Content-Type: application/json
