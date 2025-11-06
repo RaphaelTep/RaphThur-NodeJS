@@ -49,7 +49,7 @@ describe('POST contacts API', () => {
   });
 });
 
-describe('POST contacts API', () => {
+describe('PUT contacts API', () => {
   // Réinitialise la liste des contacts avant chaque test
   beforeAll(() => {
     contacts.length = 0;
@@ -67,6 +67,52 @@ describe('POST contacts API', () => {
     expect(response.status).toBe(201);
     expect(response.body.firstName).toBe("Jean");
     expect(contacts[0].firstName).toBe("Jean");
+  });
+
+  it('PUT /contacts/:id should return 400 error', async () => {
+    const updatedContact = { firstName: "Jean", lastName: "Martin", title: true };
+    const response = await request(server)
+      .put('/contacts/0')
+      .send(updatedContact);
+    expect(response.status).toBe(400);
+  });
+});
+
+describe('PATCH contacts API', () => {
+  // Réinitialise la liste des contacts avant chaque test
+  beforeAll(() => {
+    contacts.length = 0;
+    contacts.push(
+      { id: 0, firstName: "Raphael", lastName: "TEP", title: "Femboy" },
+      { id: 1, firstName: "ArthUwUr", lastName: "GayOwOt", title: "vroooooom" }
+    );
+  });
+
+  it('PATCH /contacts/:id should update firstName of contact', async () => {
+    const updatedContact = { firstName: "Paul" };
+    const response = await request(server)
+      .patch('/contacts/0')
+      .send(updatedContact);
+    expect(response.status).toBe(201);
+    expect(response.body).toEqual({ id: 0, firstName: "Paul", lastName: "TEP", title: "Femboy" });
+  });
+
+  it('PATCH /contacts/:id should update lastName of contact', async () => {
+    const updatedContact = { lastName: "Gayot" };
+    const response = await request(server)
+      .patch('/contacts/0')
+      .send(updatedContact);
+    expect(response.status).toBe(201);
+    expect(response.body).toEqual({ id: 0, firstName: "Paul", lastName: "Gayot", title: "Femboy" });
+  });
+
+  it('PATCH /contacts/:id should update title of contact', async () => {
+    const updatedContact = { title: "Dev Rust" };
+    const response = await request(server)
+      .patch('/contacts/0')
+      .send(updatedContact);
+    expect(response.status).toBe(201);
+    expect(response.body).toEqual({ id: 0, firstName: "Paul", lastName: "Gayot", title: "Dev Rust" });
   });
 });
 
